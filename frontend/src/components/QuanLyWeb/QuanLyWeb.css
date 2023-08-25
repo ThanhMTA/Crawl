@@ -1,0 +1,109 @@
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 30px;
+}
+
+.search-input {
+    flex: 1;
+    width: 400px; /* Điều chỉnh độ rộng tối đa của input */
+    height: 40px; /* Điều chỉnh độ cao của input */
+    padding: 5px 10px; /* Tạo khoảng trắng xung quanh nội dung trong input */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    font-size: 15px;
+  }
+
+
+
+
+.search-button {
+    margin-left: 20px;
+    width:80px;
+    height: 40px;
+    font-size: 15px;
+}
+
+img{
+    width: 30px;
+   
+}
+
+.form-container {
+    border: none;
+    padding: 20px; /* Thêm lề để cách biên viền */
+    background-color: #f0f0f0; /* Màu nền cho thông báo */
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+
+}
+
+.input{
+    margin-bottom: 10px;
+}
+
+.label1 {
+    margin-right: 23px;
+
+}
+.label2 {
+    margin-right: 80px;
+ 
+}
+
+
+
+.form {
+    display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: center;
+  }
+  
+.button-container {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+.SuaButton{
+    background-color: green;
+}
+
+.XoaButton {
+    background-color: red;
+}
+
+.ThemButton{
+    background-color: green;
+}
+
+.qlweb{
+    max-height: 400px; /* Đặt chiều cao tùy ý */
+    overflow: auto; /* Tạo thanh cuộn khi nội dung vượt quá chiều cao */
+    flex: 1; /* Kích thước động để điều chỉnh cho thanh cuộn */
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background-color: #f5f5f5; /* Màu nền cho phần thead */
+  }
+  

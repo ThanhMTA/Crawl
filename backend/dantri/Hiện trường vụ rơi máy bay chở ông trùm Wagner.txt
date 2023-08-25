@@ -1,0 +1,5 @@
+img: ../frontend/public/images/nga-3-1692831474816.png
+Title: Hiện trường vụ rơi máy bay chở ông trùm Wagner
+Time: Thứ năm, 24/08/2023 - 06:12
+summary: (Dân trí) - Các kênh truyền thông đã đăng tải một số hình ảnh hiện trường vụ rơi máy bay được cho là chở ông trùm Wagner Yevgeny Prigozhin.
+noteImg: Cơ quan vận tải hàng không Nga xác nhận Yevgeny Prigozhin, người đứng đầu tổ chức quân sự tư nhân Nga Wagner, là một trong số hành khách trên máy bay rơi hôm 23/8 ở vùng Tver của Nga (Ảnh: Guardian).

@@ -1,0 +1,15 @@
+{/*  
+            {websites.map((website, index) => (
+              <tr key={website.id}>
+                <td style={{ width: cellWidth.column1 }}>{index + 1}</td>
+                <td style={{ width: cellWidth.column2 }}>{website.name}</td>
+                <td style={{ width: cellWidth.column3 }}>{website.link}</td>
+                <td style={{ width: cellWidth.column4 }}>
+                  <button className='CrawlButton'>Crawl</button>
+                  <Link to="/show-txt">
+                    <button className='FileButton'>Show</button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+             */}

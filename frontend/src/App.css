@@ -1,0 +1,146 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.navbar {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #010101;
+  color: #fff;
+  padding: 10px 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 30px;
+  color: red;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+
+
+.content-container {
+  flex: 1; /* Let the content container take up remaining space */
+  display: flex;
+
+}
+
+
+.sidebar {
+  width: 170px;
+  height: 100vh;
+  background-color: #010101;
+  color: #fff;
+ 
+}
+
+
+.sidebar ul {
+  list-style: none;
+  padding: 0px;
+}
+
+.sidebar li {
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+
+
+  cursor: pointer;
+}
+
+
+.sub-items li{
+  padding-left: 0px;
+
+}
+
+.content {
+  flex: 1; /* Make the content take up remaining vertical space */
+  padding: 20px;
+  overflow: auto; /* Add scrollbar if content exceeds main area height */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background-color: #0c2333;
+  color: #fff;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+button {
+  padding: 5px 10px;
+  margin-right: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+
+span {
+  padding: 5px 10px;
+}
+
+
+.sub-items {
+  display: block;
+  list-style: none;
+  margin-top: 5px;
+  padding-left: 15px;
+}
+
+.active {
+  background-color: #fff;
+  color: #010101;
+}
+
+.sidebarItems {
+  border: 1px #010101;
+}
+
+.homeimg{
+  width: 70%;
+}

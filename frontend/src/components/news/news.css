@@ -1,0 +1,86 @@
+/* new.css */
+
+.App {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Chiều cao cố định bằng chiều cao của màn hình */
+}
+
+.header {
+  background-color: #ffffffd9;
+  text-align: center;
+  padding: 2rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #000; /* Màu trắng cho tiêu đề */
+}
+
+.author-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 1rem;
+  padding-left: 2rem;
+}
+
+.author {
+  font-size: 14px;
+  color: #000;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.author strong {
+  font-weight: bold;
+  color: #000;
+}
+
+.publish-date {
+  font-size: 14px;
+  color: #000;
+}
+
+.content-new {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #bacfe681;;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 400px; /* Đặt chiều cao tùy ý */
+  overflow: auto; /* Tạo thanh cuộn khi nội dung vượt quá chiều cao */
+  flex: 1; /* Kích thước động để điều chỉnh cho thanh cuộn */
+
+}
+
+.imgNew {
+  width:500px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.img{
+  margin:2px;
+}
+
+.content-text {
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+
+.chuthich{
+  line-height: 1.6;
+margin-top: 1rem;
+text-align: center; 
+font-style: italic;
+}
