@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 function Show() {
   const [fileList, setFileList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const filesPerPage = 10;
+  const filesPerPage = 9;
 
   useEffect(() => {
     fetch('http://127.0.0.1:5000/api/files')
@@ -38,11 +38,7 @@ function Show() {
 
   return (
     <>
-      <div>
-        <Link to="/crawl-du-lieu">
-          <button className='QLButton'>Quay lại</button>
-        </Link>
-      </div>
+      
       <h1 style={{ marginTop: 0 }}>Danh sách các bài báo đã Crawl</h1>
       <div className="container">
         <table>
@@ -70,9 +66,9 @@ function Show() {
 
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1em' }}>
-        <button onClick={handleClickPrev} disabled={currentPage === 1}>Previous</button>
+        <button onClick={handleClickPrev} disabled={currentPage === 1}>Trước</button>
         {fileList.length > indexOfLastFile && (
-          <button onClick={handleClickNext}>Next</button>
+          <button onClick={handleClickNext}>Sau</button>
         )}
       </div>
     </>

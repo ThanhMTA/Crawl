@@ -86,9 +86,26 @@ position: sticky;
 top: 0;
 background-color: #f5f5f5; /* Màu nền cho phần thead */
 }
-.label3 {
-  margin-right: 32px;
+
+.NewsPage_ {
+  width: 166px;
 }
-.NewsPage {
-  width: 173px;
+
+
+.DeleteButton{
+  background-color: red;
+}
+
+
+.label11 {
+  margin-right: 20px;
+}
+
+
+.label12 {
+  margin-right: 83px;
+}
+
+.label13 {
+  margin-right: 40px;
 }

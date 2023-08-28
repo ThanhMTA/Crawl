@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './CrawlDuLieu.css';
-
-import Show from '../Show/Show.js';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import queryString from 'query-string'; // Import thư viện query-string
-
+import search from '../../assets/image/search.png';
 
 const CrawlDuLieu = () => {
   // đặt độ rộng cho từng cột trong table
   const cellWidth = {
     column1: '10%',
-    column2: '10%',
-    column3: '20%',
-    column4: '40%',
-    column5: '20%'
+    column2: '15%',
+    column3: '15%',
+    column4: '35%',
+    column5: '25%'
   };
   const [editStatus, setEditStatus] = useState({}); // Trạng thái chỉnh sửa
-
-  const [websites, setWebsites] = useState([]);
   const [crawlName, setcrawlName] = useState('');
   const [crawlLink, setcrawlLink] = useState('');
   const [NewsPages, setNewsPage] = useState('');
@@ -36,19 +29,26 @@ const CrawlDuLieu = () => {
   // Kiểm tra xem tham số active có trong URL không
   const isActive = location.search.includes('active=namenews');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Xử lý logic để thêm bản ghi mới với websiteName và websiteLink
-    console.log('Tên website:', crawlName);
-    console.log('Link:', crawlLink);
-    // Đặt state về giá trị ban đầu sau khi thêm bản ghi
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/child-link');
+      const data = await response.json();
+      setNewsData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   // const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const namenews = searchParams.get('namenews') || '';
   const [newsData, setNewsData] = useState([]);
+
   useEffect(() => {
     fetch(`http://127.0.0.1:5000/api/child-link`)
       .then(response => response.json())
@@ -57,26 +57,19 @@ const CrawlDuLieu = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/api/newspaper_page')
+    fetch(`http://127.0.0.1:5000/api/newspaper_page`)
       .then(response => response.json())
-      .then(data => {
-        setNews(data);
-        console.log(data); // In ra dữ liệu lấy được từ API
-      })
+      .then(data => setNews(data))
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
 
 
 
-  const handleSearchButtonClick = () => {
-    // Thực hiện tìm kiếm dựa trên giá trị của searchTerm
-    setSearchTerm('');
-    setShowAlert(true);
-
-  };
   const [crawlStates, setCrawlStates] = useState(newsData.map(() => false));
 
+
+  //-------------crawl------------
   const handleCrawlClick = (id, index) => {
     if (!crawlStates[index] && window.confirm("Bạn có chắc chắn muốn crawl trang báo này?")) {
       const updatedStates = [...crawlStates];
@@ -104,6 +97,8 @@ const CrawlDuLieu = () => {
     }
   };
 
+
+  //--------------delete-------------
   const handleDeleteButton = (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa trang báo này?")) {
       fetch(`http://127.0.0.1:5000/api/child-link/${id}`, {
@@ -196,18 +191,25 @@ const CrawlDuLieu = () => {
       console.error('Error adding article:', error);
     }
   };
-  //api
+
+
+
+  //------------------------------search-----------------------------
+  const encodedSearchTerm = encodeURIComponent(searchTerm); // Encode chuỗi
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredNewsPages = searchClicked
-    ? newsData.filter(
-      (page) =>
-        page.NameNews.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        page.Link.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    : newsData;
+  const handleSearchButtonClick = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/api/child-link/search?search=${encodedSearchTerm}`);
+      const data = await response.json();
+      setNewsData(data);
+      setSearchTerm('');
+    } catch (error) {
+      console.error('Error fetching updated data:', error);
+    }
+  };
 
 
 
@@ -220,15 +222,15 @@ const CrawlDuLieu = () => {
         <div className="search-container">
           <input type="text" placeholder="Nhập từ khóa cần tìm..." value={searchTerm} onChange={handleSearch} className="search-input" />
           <button className="search-button" onClick={handleSearchButtonClick}>
-            Search
+            <img src={search} alt='search'></img>
           </button>
         </div>
         <div className="container">
           <div class="form-container">
-            <form onSubmit={handleSubmit}>
+            <form >
 
               <div>
-                <label htmlFor="websiteName" className="label1"> Tên website:</label>
+                <label htmlFor="websiteName" className="label11"> Tên tiêu mục:</label>
                 <input type="text" id="websiteName"
                   value={crawlName}
                   onChange={(e) => setcrawlName(e.target.value)}
@@ -236,7 +238,7 @@ const CrawlDuLieu = () => {
                 />
                 <div />
                 <div>
-                  <label htmlFor="websiteLink" className="label2">Link:</label>
+                  <label htmlFor="websiteLink" className="label12">Link:</label>
                   <input type="text" id="websiteLink"
                     value={crawlLink}
                     onChange={(e) => setcrawlLink(e.target.value)}
@@ -244,17 +246,16 @@ const CrawlDuLieu = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="NewsPage" className="label3">NewsPage:</label>
+                  <label htmlFor="NewsPage" className="label13">Trang báo:</label>
                   <select
-                    className="NewsPage"
+                    className="NewsPage_"
                     value={NewsPages}
                     onChange={(e) => setNewsPage(e.target.value)}
                     required
                   >
 
-                    <option value="">-- Chọn trang tin --</option>
+                    <option value="">-- Chọn trang báo --</option>
                     {news.map((childnews) => (
-
                       <option value={childnews.NameNews}>{childnews.NameNews}</option>
                     ))}
 
@@ -275,17 +276,14 @@ const CrawlDuLieu = () => {
 
       </div>
 
-      {/* <div>
-        <h1>Danh sách website </h1>
-        <br></br>
-      </div> */}
+
       <div className='crawldl' >
         <table>
           <thead>
             <tr>
               <th style={{ width: cellWidth.column1 }}>STT</th>
-              <th style={{ width: cellWidth.column2 }}>Name</th>
-              <th style={{ width: cellWidth.column3 }}>Tên website</th>
+              <th style={{ width: cellWidth.column2 }}>Trang báo</th>
+              <th style={{ width: cellWidth.column3 }}>Tiêu mục</th>
               <th style={{ width: cellWidth.column4 }}>Link</th>
               <th style={{ width: cellWidth.column5 }}>Hành động</th>
             </tr>
@@ -305,7 +303,7 @@ const CrawlDuLieu = () => {
                     {crawlStates[index] ? "Đang Crawl..." : "Crawl"}
                   </button>
                   <button className='SuaButton' onClick={() => handleEditButton(childname)}>Sửa</button>
-                  <button className='FileButton' onClick={() => handleDeleteButton(childname.Id)}>Delete</button>
+                  <button className='DeleteButton' onClick={() => handleDeleteButton(childname.Id)}>Xóa</button>
                 </td>
               </tr>
             ))}

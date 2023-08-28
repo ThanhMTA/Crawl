@@ -217,5 +217,69 @@ def add_crawler():
     else:
         cursor.close()
         return jsonify({"error": "NewsPage not found"})
+    #  search newspaper
+@app.route('/api/newspaper_page/search')
+def Search_NewsPaper():
+    search_term = request.args.get('search', default='', type=str)  # Lấy tham số tìm kiếm từ URL
+
+    cursor = db_connection.cursor()
+
+    if search_term:  # Kiểm tra nếu có tham số tìm kiếm
+        query = "SELECT * FROM NewsPages WHERE NameNews LIKE %s "
+        cursor.execute(query, ('%' + search_term + '%',))
+    else:
+        cursor.execute("SELECT * FROM NewsPages")
+
+    NewsPapers = cursor.fetchall()
+    cursor.close()
+
+    NewsPaper_list = []
+    for newspage in NewsPapers:
+        newspage_dict = {
+            "Id": newspage[0],
+            "Link": newspage[2],
+            "NameNews": newspage[1]
+        }
+        NewsPaper_list.append(newspage_dict)
+
+    return jsonify(NewsPaper_list)
+#______________________________SEARCH LINK ________________
+@app.route('/api/child-link/search')
+def Search_Crawler():
+    search_term = request.args.get('search', default='', type=str)  # Lấy tham số tìm kiếm từ URL
+
+    cursor = db_connection.cursor()
+
+    if search_term:  # Kiểm tra nếu có tham số tìm kiếm
+        query = """
+            SELECT NewsPages.NameNews, Crawler.id, Crawler.NameItem, Crawler.Link
+            FROM Crawler
+            INNER JOIN NewsPages ON Crawler.idNewsPage = NewsPages.id
+            WHERE Crawler.NameItem LIKE %s
+        """
+        cursor.execute(query, ('%' + search_term + '%',))
+    else:
+        query = """
+            SELECT NewsPages.NameNews, Crawler.id, Crawler.NameItem, Crawler.Link, 
+            FROM Crawler
+            INNER JOIN NewsPages ON Crawler.idNewsPage = NewsPages.id
+        """
+        cursor.execute(query)
+
+    Crawler = cursor.fetchall()
+    cursor.close()
+
+    Crawler_list = []
+    for crawler in Crawler:
+        crawler_dict = {
+             "Id": crawler[1],       # Sử dụng id của Crawler làm Id
+            "NameNews": crawler[0],  # NameNews
+            "NameItem":crawler[2],  # NameItem
+            "Link": crawler[3]       # Link
+           
+        }
+        Crawler_list.append(crawler_dict)
+
+    return jsonify(Crawler_list)
 if __name__ == '__main__':
     app.run(debug=True)

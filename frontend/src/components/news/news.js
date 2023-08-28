@@ -1,7 +1,9 @@
 import React from 'react';
 import './news.css';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+// import Show from '../Show/Show.js';
+import back from '../../assets/image/back.png';
 
 const News = () => {
     const { filename } = useParams();
@@ -14,6 +16,16 @@ const News = () => {
             .catch(error => console.error('Error fetching data:', error));
     }, [filename]);
     return (
+        <div>
+            <div>
+               <Link to={'/show-txt'} >
+                    <button className="back">
+                        <img src ={back}></img>
+                         
+                    </button>
+               </Link>
+            </div>
+        
         <div className="App">
             <header className="header">
                 <p className='title'>{newsData.title}</p>
@@ -34,6 +46,8 @@ const News = () => {
                 </p>
             </div>
         </div>
+        </div>
+        
     );
 }
 

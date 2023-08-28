@@ -25,15 +25,21 @@ const QuanLyWebsite = () => {
   // lay danh sach trang bao 
   const [newspage, setNewspage] = useState([]);
   const [editStatus, setEditStatus] = useState({}); // Trạng thái chỉnh sửa
-  const [searchClicked, setSearchClicked] = useState(false);
-  const [searchInput, setSearchInput] = useState(''); // Sử dụng state mới cho input
+  const [newsData, setNewsData] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/api/newspaper_page')
-      .then(response => response.json())
-      .then(data => setNewspage(data))
-      .catch(error => console.error('Error fetching data:', error));
+    fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/newspaper_page');
+      const data = await response.json();
+      setNewsData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
   // delete 
   const handleDeleteButtonClick = (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa trang báo này?")) {
@@ -132,28 +138,21 @@ const QuanLyWebsite = () => {
     setNewspage(updatedNewspage);
   };
 
-
+  const encodedSearchTerm = encodeURIComponent(searchTerm); // Encode chuỗi
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchButtonClick = () => {
-    // Thực hiện tìm kiếm dựa trên giá trị của searchTerm
-    setSearchClicked(true);
-    setSearchTerm('');
-
+  const handleSearchButtonClick = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/api/newspaper_page/search?search=${encodedSearchTerm}`);
+      const data = await response.json();
+      setNewsData(data);
+      setSearchTerm('');
+    } catch (error) {
+      console.error('Error fetching updated data:', error);
+    }
   };
-
-  // Lọc dữ liệu newspage dựa trên searchTerm và searchClicked
-  const filteredNewsPages = searchClicked
-    ? newspage.filter(
-      (page) =>
-        page.NameNews.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        page.Link.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    : newspage;
-
-  //api
 
 
 
@@ -172,7 +171,7 @@ const QuanLyWebsite = () => {
           <div class="form-container">
             <form >
               <div>
-                <label htmlFor="websiteName" className="label1"> Tên website:</label>
+                <label htmlFor="websiteName" className="label1"> Tên trang báo:</label>
                 <input type="text" id="websiteName"
                   value={websiteName}
                   onChange={(e) => setWebsiteName(e.target.value)}
@@ -209,7 +208,7 @@ const QuanLyWebsite = () => {
           </thead>
 
           <tbody>
-            {filteredNewsPages.map((website, index) => (
+            {newsData.map((website, index) => (
               <tr key={index}>
                 <td style={{ width: cellWidth.column1 }}>{index + 1}</td>
                 <td style={{ width: cellWidth.column2 }} contentEditable={true} onBlur={(e) => handleNewspageUpdate(e, website.Id, 'NameNews', website.NameNews)}> {editStatus[website.Id]?.NameNews || website.NameNews}</td>
@@ -217,9 +216,6 @@ const QuanLyWebsite = () => {
                 <td style={{ width: cellWidth.column4 }}>
                   <button className='SuaButton' onClick={() => handleEditButtonClick(website)}>Sửa</button>
                   <button className='XoaButton' onClick={() => handleDeleteButtonClick(website.Id)}  >Xóa</button>
-                  <Link to={`/crawl-du-lieu?namenews= ${website.NameNews}`}>
-                    <button className='CrawlButton'>Crawl</button>
-                  </Link>
                 </td>
               </tr>
             ))}

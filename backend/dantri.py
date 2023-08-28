@@ -27,23 +27,19 @@ def crawl_content(url):
     file_path = os.path.join(folder_path, file_name)
     if not os.path.exists(file_path):
         with open(file_path, "a", encoding="utf-8") as file:
-            title_element = driver.find_element(By.TAG_NAME, "h1").text
-            summary=driver.find_element(By.TAG_NAME, "h2").text
-            contents=driver.find_elements(By.CSS_SELECTOR, "div>p") 
-            times = driver.find_element(By.TAG_NAME,"time").text
-            noteImg= driver.find_element(By.CSS_SELECTOR, "figcaption > p").text 
-            # get img
-            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "figure > img")))
-
-
-            # image_element = driver.find_element(By.CSS_SELECTOR, "figure > img")
-            file.write("Title: " + title_element + "\n")
+            title_element = driver.find_element(By.TAG_NAME, "h1").text # lấy tiêu đề bài báo 
+            summary=driver.find_element(By.TAG_NAME, "h2").text # lấy tóm tắt bài báo 
+            contents=driver.find_elements(By.CSS_SELECTOR, "div>p") # lấy nội dung bài báo 
+            times = driver.find_element(By.TAG_NAME,"time").text# lấy thời gian đăng bài báo 
+            noteImg= driver.find_element(By.CSS_SELECTOR, "figcaption > p").text  # lấy chú thích của hình ảnh 
+            # ghi vào file
+            file.write("Title: " + title_element + "\n") 
             file.write("Time: " + times+ "\n")
             file.write("summary: " + summary + "\n")
             file.write("noteImg: " + noteImg + "\n")
             for content in contents:
                 file.write(content.text + "\n")
-        
+            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, "figure > img")))
             image_element = driver.find_element(By.CSS_SELECTOR, "figure>img") if driver.find_element(By.CSS_SELECTOR, "figure>img") else None
             if image_element:
                 try:
@@ -70,10 +66,9 @@ def crawl_page(url):
     for url in article_links:
         crawl_content(url)
 
-
+    # tìm kiếm button next nếu có thì gán bằng giá trị đó, nếu không thì trả về none
     next_button = driver.find_element(By.CSS_SELECTOR, "a.next") if driver.find_elements(By.CSS_SELECTOR, "a.next") else None
-    print("================================================================")
-    print(next_button)
+    # nếu next_button tồn tại 
     if next_button:
         next_button.click()
         crawl_page(driver.current_url)  # Đệ quy để lấy dữ liệu từ trang tiếp theo
@@ -81,10 +76,15 @@ def crawl_page(url):
 # initial_url = "https://dantri.com.vn/the-gioi.htm"
 # crawl_page(initial_url)
 if __name__ == '__main__':
+    # Kiểm tra số lượng tham số dòng lệnh
     if len(sys.argv) != 2:
         print("Usage: python dantri.py <url>")
         sys.exit(1)
+    
+    # Lấy URL từ tham số dòng lệnh (được truyền từ API của thư viện Flask)
     url = sys.argv[1]
+    
+    # Bắt đầu quá trình thu thập dữ liệu nếu URL hợp lệ
     crawl_page(url)
 
 driver.quit()
